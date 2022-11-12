@@ -2,7 +2,7 @@
 <html lang="ko">
 
 <head>
-    <meta charset="euc-kr">
+    <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>report</title>
@@ -26,7 +26,7 @@
         const Request = function () {
             this.getParameter = function (name) {
                 let rtnval = '';
-                let nowAddress = unescape(location.href);
+                let nowAddress = unescape(encodeURI(location.href));
                 let parameters = (nowAddress.slice(nowAddress.indexOf('?') + 1,
                     nowAddress.length)).split('&');
                 for (let i = 0; i < parameters.length; i++) {
@@ -82,7 +82,9 @@
                 btn.prop("disabled", false).html(btn.data('old-html')).data('old-html', false);
             }
             const keyward = request.getParameter('keyward');
-            $(".form-control").val(keyward);
+            console.log(keyward)
+            console.log(decodeURI(keyward))
+            $(".form-control").val(decodeURI(decodeURIComponent(keyward)));
 
             document.onkeydown = function (evt) {
                 evt = evt || window.event;
