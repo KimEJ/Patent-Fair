@@ -81,7 +81,8 @@
                 if (!btn.data('old-html')) return;
                 btn.prop("disabled", false).html(btn.data('old-html')).data('old-html', false);
             }
-            var keyward = request.getParameter('keyward');
+            const keyward = request.getParameter('keyward');
+            $(".form-control").val(keyward);
 
             document.onkeydown = function (evt) {
                 evt = evt || window.event;
@@ -96,10 +97,6 @@
                 }
             };
 
-            window.addEventListener("message", function (e) {
-                keyward = e.data.keyward;
-                $(".form-control").val(keyward);
-            });
             function reportCreate() {
                 // contents 채우기
                 console.log("clicked")
