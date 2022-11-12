@@ -81,10 +81,8 @@
                 if (!btn.data('old-html')) return;
                 btn.prop("disabled", false).html(btn.data('old-html')).data('old-html', false);
             }
-            const keyward = request.getParameter('keyward');
-            console.log(keyward)
-            console.log(decodeURI(keyward))
-            $(".form-control").val(decodeURI(decodeURIComponent(keyward)));
+            const keyward = decodeURI(request.getParameter('keyward'));
+            $(".form-control").val(keyward);
 
             document.onkeydown = function (evt) {
                 evt = evt || window.event;
