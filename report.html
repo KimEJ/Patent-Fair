@@ -255,7 +255,7 @@
                     //proxy: "html2canvasproxy.php",
                     allowTaint: false,	// cross-origin allow 
                     useCORS: true,		// CORS 사용한 서버로부터 이미지 로드할 것인지 여부
-                    scale: 2			// 기본 96dpi에서 해상도를 두 배로 증가
+                    scale: 1			// 기본 96dpi에서 해상도를 두 배로 증가
                 }).then(async function (canvas) {
                     // 캔버스를 이미지로 변환
                     var imgData = canvas.toDataURL('image/png');
