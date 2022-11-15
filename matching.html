@@ -6,12 +6,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>matching</title>
-    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.6/dist/web/static/pretendard.css" />
+    <link rel="stylesheet" as="style" crossorigin
+        href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.6/dist/web/static/pretendard.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/TeamOden/DK_Resource@v1.1/reset.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/TeamOden/DK_Resource@v1.1/report.css">
-    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -21,9 +25,29 @@
                 <div class="make-report">
                     <div>
                         <label for="exampleFormControlInput1" class="form-label">키워드 </label>
-                        <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="키워드를 입력해주세요." disabled>
+                        <input class="form-control" id="exampleFormControlInput1" placeholder="키워드를 입력해주세요.">
                     </div>
-                    <button type="button" class="btn btn-primary" disabled>검색</button>
+                    <button type="button" class="btn btn-primary" onclick="search()">검색</button>
+                    <script>
+                        function search() {
+                            $('#table tbody').empty()
+                            const keyward = $("#exampleFormControlInput1").val()
+                            const result = table.filter(array => array.find(el => el.includes(keyward)));
+                            for (key in result) {
+                                RowList = result[key]
+                                var rowItem = '<tr>'
+                                rowItem += '<td> ' + RowList[0] + ' </td>'
+                                rowItem += '<td> ' + RowList[1] + ' </td>'
+                                rowItem += '<td> ' + RowList[2] + ' </td>'
+                                rowItem += '<td> ' + RowList[3] + ' </td>'
+                                rowItem += '<td> ' + RowList[4] + ' </td>'
+                                rowItem += '<td> ' + RowList[5] + ' </td>'
+                                rowItem += '</tr>'
+                                console.log(rowItem)
+                                $('#table tbody').append(rowItem)
+                            }
+                        }
+                    </script>
                 </div>
             </div>
         </header>
@@ -46,7 +70,7 @@
                     <div class="box-wrap">
                         <div class="box">
                             <h3>기술 공급자&수요자 매칭</h3>
-                            <table class="table table-bordered tac">
+                            <table class="table table-bordered tac" id="table">
                                 <thead>
                                     <tr>
                                         <th>기술공급자</th>
@@ -58,37 +82,40 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>김길수</td>
-                                        <td>1234551234555</td>
-                                        <td>배터리</td>
-                                        <td>LG에너지솔루션</td>
-                                        <td>고체배터리</td>
-                                        <td>O</td>
-                                    </tr>
-                                    <tr>
-                                        <td>K 대학</td>
-                                        <td>0987654321</td>
-                                        <td>배터리 폭발 차단</td>
-                                        <td>LG에너지솔루션</td>
-                                        <td>배터리 제어</td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>A 연구소</td>
-                                        <td>123910239889</td>
-                                        <td>NFT 키 관리</td>
-                                        <td>LG에너지솔루션</td>
-                                        <td>NFT</td>
-                                        <td>O</td>
-                                    </tr>
                                 </tbody>
                             </table>
+                            <script>
+                                var table = [
+                                    ['김길수', '1234551234555', '배터리', 'LG에너지솔루션', '고체배터리', '0'],
+                                    ['K 대학', '0987654321', '배터리 폭발 차단', 'LG에너지솔루션', '배터리 제어', ''],
+                                    ['A 연구소', '123910239889', 'NFT 키 관리', 'LG에너지솔루션', 'NFT', '0'],
+                                    ['임한욱', '989322334123', '음성인식', 'LG에너지솔루션', '음성인식', '0'],
+                                    ['주식회사 B', '14874228273', '블록체인 알고리즘', 'LG에너지솔루션', '블록체인', '0'],
+                                    ['최철수', '5234634574578', 'ESS 모델', 'LG에너지솔루션', 'ESS 시스템', ''],
+                                    ['이미영', '2347434521234', '디지털트윈 모델링 시스템', 'LG에너지솔루션', '모델링', '0'],
+                                    ['A 산업', '2347434521234', 'IoT 스마트 팩토리', 'LG에너지솔루션', '스마트 팩토리', '0'],
+                                ]
+                                $(document).ready(function () {
+                                    for (key in table) {
+                                        RowList = table[key]
+                                        var rowItem = '<tr>'
+                                        rowItem += '<td> ' + RowList[0] + ' </td>'
+                                        rowItem += '<td> ' + RowList[1] + ' </td>'
+                                        rowItem += '<td> ' + RowList[2] + ' </td>'
+                                        rowItem += '<td> ' + RowList[3] + ' </td>'
+                                        rowItem += '<td> ' + RowList[4] + ' </td>'
+                                        rowItem += '<td> ' + RowList[5] + ' </td>'
+                                        rowItem += '</tr>'
+                                        console.log(rowItem)
+                                        $('#table tbody').append(rowItem)
+                                    }
+                                })
+                            </script>
                         </div>
                     </div>
                 </div>
             </div>
-            <hr/>
+            <hr />
             <div class="regist">
                 <div class="provider">
                     <div class="title">
@@ -128,7 +155,7 @@
                                 $('#providerManagerPhoneNumber').val() === '' ||
                                 $('#providerPatentNumber').val() === '' ||
                                 $('#providerKeywords').val() === ''
-                            ){
+                            ) {
                                 alert("입력되지 않은 값이 있습니다.")
                             } else {
                                 alert("공급자 등록에 성공하였습니다.")
@@ -141,7 +168,8 @@
                             }
 
                         }
-                    </script>                </div>
+                    </script>
+                </div>
                 <div class="consumer">
                     <div class="title">
                         <span> 수요자 등록 </span>
@@ -176,7 +204,7 @@
                                 $('#consumerManagerEmail').val() === '' ||
                                 $('#consumerManagerPhoneNumber').val() === '' ||
                                 $('#consumerKeywords').val() === ''
-                            ){
+                            ) {
                                 alert("입력되지 않은 값이 있습니다.")
                             } else {
                                 alert("공급자 등록에 성공하였습니다.")
