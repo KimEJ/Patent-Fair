@@ -6,22 +6,19 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>report</title>
-    <link rel="stylesheet" as="style" crossorigin
-        href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.6/dist/web/static/pretendard.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/TeamOden/DK_Resource@main/reset.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-        crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/TeamOden/DK_Resource@main/report.css">
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.6/dist/web/static/pretendard.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/TeamOden/DK_Resource@v1.1/reset.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <!-- <link rel="stylesheet" href="./report.css"> -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/TeamOden/DK_Resource@v1.1/report.css">
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
     <script type="text/javascript" src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 </head>
 
 <body>
-
+    
     <script type="text/javascript">
         const Request = function () {
             this.getParameter = function (name) {
@@ -41,21 +38,17 @@
         }
         const request = new Request();  
     </script>
-
     <div id="wrap">
         <header>
             <div class="header">
                 <div class="make-report">
                     <div>
                         <label for="exampleFormControlInput1" class="form-label">키워드 </label>
-                        <input class="form-control" id="exampleFormControlInput1" id="search" disabled
-                            placeholder="키워드 입력 후 자동리포트 생성을 눌러주세요.">
+                        <input type="email" class="form-control" id="exampleFormControlInput1" disabled placeholder="키워드 입력 후 자동리포트 생성을 눌러주세요.">
                     </div>
                     <button type="button" class="btn btn-primary" onclick="reportCreate()">자동 리포트 생성</button>
                 </div>
-                <button id="download" type="button" class="btn btn-primary line" disabled onclick="savePDF()"
-                    data-loading-text="Loading...">PDF
-                    다운로드</button>
+                <button type="button" class="btn btn-primary line" disabled onclick="savePDF()" data-loading-text="Loading...">PDF 다운로드</button>
             </div>
         </header>
         <aside>
@@ -65,15 +58,228 @@
                 </li>
             </ul>
         </aside>
-        <section id="contents">
-            <div class="none-data">
-                <span>
-                    ✏️ 상단 키워드 입력 후 [자동 리포트 생성] 버튼을 누르면 리포트가 생성됩니다.
-                </span>
-            </div>
-        </section>
-        
         <section>
+            <div id="contents">
+                <div class="none-data">
+                    <span> ✏️ 상단 키워드 입력 후 [자동 리포트 생성] 버튼을 누르면 리포트가 생성됩니다. </span>
+                </div>    
+            </div>
+            <script type="text/javascript">
+                $.loading = function (btn, action) {
+                    if (action && !btn.data('old-html')) {
+                        btn.data('old-html', btn.html()).prop("disabled", true).html(btn.data('loading-text') || 'Loading...');
+                        return
+                    }
+                    if (!btn.data('old-html')) return;
+                    btn.prop("disabled", false).html(btn.data('old-html')).data('old-html', false);
+                }
+                const keyward = decodeURI(request.getParameter('keyward'));
+                $(".form-control").val(keyward);
+    
+                document.onkeydown = function (evt) {
+                    evt = evt || window.event;
+                    if (evt.keyCode == 27) {
+    
+                        window.parent.postMessage(
+                            {
+                                type: "close",
+                            },
+                            "*"
+                        );
+                    }
+                };
+    
+                function reportCreate() {
+                    // contents 채우기
+                    console.log("clicked")
+                    $("#contents").html(`
+                    <div class="content">
+                    <div class="box-container">
+                        <div class="box-wrap">
+                            <div class="box">
+                                <h3>기술 요지서</h3>
+                                <table class="table table-bordered">
+                                    <colgroup>
+                                        <col style="width: 15%;">
+                                        <col style="width: 30%;">
+                                        <col>
+                                    </colgroup>
+                                    <tbody>
+                                        <tr>
+                                            <th scope="row">기술명</th>
+                                            <td>
+                                                건축용 샌드위치 패널(화재확산 방지구조)
+                                            </td>
+                                            <td rowspan="6"> Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem tempore veniam eum quibusdam esse nisi, doloremque ducimus enim officiis tempora illum nesciunt harum aspernatur itaque, natus et rerum? Sunt, repudiandae. </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">발명자</th>
+                                            <td>
+                                                조남욱
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">소속</th>
+                                            <td>
+                                                화재안전연구소
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">출원번호(출원일)</th>
+                                            <td>
+                                                10-2016-0091407(2016.07.19)
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">등록번호(등록일)</th>
+                                            <td>
+                                                10-2016-0091407(2016.07.19)
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">패키지(관련특허)</th>
+                                            <td>
+                                                10-2016-0091407(2016.07.19)<br/>
+                                                10-2016-0091407(2016.07.19)
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="box">
+                                <h3>기술 요지서</h3>
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>대분류</th>
+                                            <th>중분류</th>
+                                            <th>소분류</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>대분류분류</td>
+                                            <td>중분류22</td>
+                                            <td>소분류22</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="box">
+                            <h3>대표 도면</h3>
+                            <div class="border">
+                                <img src="https://cdn.jsdelivr.net/gh/TeamOden/DK_Resource@main/search-sample/sample4.jpeg" alt="sample4">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box-container">
+                        <div class="box-wrap">
+                            <div class="box">
+                                <h3>시장성 분석</h3>
+                                <div class="border">
+                                    <img src="https://cdn.jsdelivr.net/gh/TeamOden/DK_Resource@main/search-sample/sample1.png" alt="sample">
+                                </div>
+                            </div>
+                            <div class="box">
+                                <h3>전문가 진단 등급</h3>
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>기술성(15점)</th>
+                                            <th>시장성(15점)</th>
+                                            <th>권리성(15점)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>10점</td>
+                                            <td>12점</td>
+                                            <td>10점</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="box">
+                            <h3>핵심 아이템 선정 레벨</h3>
+                            <table class="table table-bordered">
+                                <tbody>
+                                    <tr style="height: 38px">
+                                        <th scope="row" style="width: 30%">핵심 아이템</th>
+                                        <td>Mark</td>
+                                    </tr>
+                                    <tr style="height: 38px">
+                                        <th scope="row">TRL 단계</th>
+                                        <td>Jacob</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2"> asdfjksldafjlk </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="box">
+                            <h3>기술 비교 우위성</h3>
+                            <div class="border">
+                                <img src="https://cdn.jsdelivr.net/gh/TeamOden/DK_Resource@main/search-sample/sample2.png" alt="sample">
+                            </div>
+                        </div>
+                        <div class="box">
+                            <h3>응용 분야</h3>
+                            <div class="border">
+                                <img src="https://cdn.jsdelivr.net/gh/TeamOden/DK_Resource@main/search-sample/sample3.jpeg" alt="sample">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    `);
+                    $('#download').attr('disabled', false);
+                }
+    
+                function savePDF() {
+                    let $btn = $('#download')
+                    $.loading($btn, true)
+    
+                    //저장 영역 div id
+                    html2canvas($('#contents')[0], {
+                        //logging : true,		// 디버그 목적 로그
+                        //proxy: "html2canvasproxy.php",
+                        allowTaint: false,	// cross-origin allow 
+                        useCORS: true,		// CORS 사용한 서버로부터 이미지 로드할 것인지 여부
+                        scale: 1			// 기본 96dpi에서 해상도를 두 배로 증가
+                    }).then(async function (canvas) {
+                        // 캔버스를 이미지로 변환
+                        var imgData = canvas.toDataURL('image/png');
+                        var pageHeight = 260 // 이미지 가로 길이(mm) / A4 기준 210mm
+                        var imgWidth = pageHeight * 1.414;  // 출력 페이지 세로 길이 계산 A4 기준
+                        var imgHeight = canvas.height * imgWidth / canvas.width;
+                        var heightLeft = imgHeight;
+                        var margin = -30; // 출력 페이지 여백설정
+                        var doc = new jsPDF('l', 'mm', 'a4');
+                        var position = 0;
+    
+                        // 첫 페이지 출력
+                        doc.addImage(imgData, 'PNG', margin, position, imgWidth, imgHeight);
+                        heightLeft -= pageHeight;
+    
+                        // 한 페이지 이상일 경우 루프 돌면서 출력
+                        while (heightLeft >= 20) {			// 35
+                            position = heightLeft - imgHeight;
+                            position = position - 20;		// -25
+    
+                            doc.addPage();
+                            doc.addImage(imgData, 'PNG', margin, position, imgWidth, imgHeight);
+                            heightLeft -= pageHeight;
+                        }
+    
+                        // 파일 저장
+                        await doc.save(`기술리포트-${keyward}.pdf`);
+                        $.loading($btn, false);
+                    });
+                }
+    
+            </script>
             <!-- ** 아래 추가됨 -->
             <hr />
             <div class="regist">
@@ -105,7 +311,30 @@
                             </div>
                         </div>
                     </div>
-                    <button class="button">저장</button>
+                    <button class="button" onclick="providerSave()">저장</button>
+                    <script>
+                        function providerSave() {
+                            if (
+                                $('#providerCompanyName').val() === '' ||
+                                $('#providerManagerName').val() === '' ||
+                                $('#providerManagerEmail').val() === '' ||
+                                $('#providerManagerPhoneNumber').val() === '' ||
+                                $('#providerPatentNumber').val() === '' ||
+                                $('#providerKeywords').val() === ''
+                            ){
+                                alert("입력되지 않은 값이 있습니다.")
+                            } else {
+                                alert("공급자 등록에 성공하였습니다.")
+                                $('#providerCompanyName').val() = ''
+                                $('#providerManagerName').val() = ''
+                                $('#providerManagerEmail').val() = ''
+                                $('#providerManagerPhoneNumber').val() = ''
+                                $('#providerPatentNumber').val() = ''
+                                $('#providerKeywords').val() = ''
+                            }
+
+                        }
+                    </script>
                 </div>
                 <div class="consumer">
                     <div class="title">
@@ -132,226 +361,31 @@
                             </div>
                         </div>
                     </div>
-                    <button class="button">저장</button>
+                    <button class="button" onclick="consumerSave()">저장</button>
+                    <script>
+                        function consumerSave() {
+                            if (
+                                $('#consumerCompanyName').val() === '' ||
+                                $('#consumerManagerName').val() === '' ||
+                                $('#consumerManagerEmail').val() === '' ||
+                                $('#consumerManagerPhoneNumber').val() === '' ||
+                                $('#consumerKeywords').val() === ''
+                            ){
+                                alert("입력되지 않은 값이 있습니다.")
+                            } else {
+                                alert("공급자 등록에 성공하였습니다.")
+                                $('#consumerCompanyName').val('')
+                                $('#consumerManagerName').val('')
+                                $('#consumerManagerEmail').val('')
+                                $('#consumerManagerPhoneNumber').val('')
+                                $('#consumerKeywords').val('')
+                            }
+
+                        }
+                    </script>
                 </div>
             </div>
         </section>
-        <script type="text/javascript">
-            $.loading = function (btn, action) {
-                if (action && !btn.data('old-html')) {
-                    btn.data('old-html', btn.html()).prop("disabled", true).html(btn.data('loading-text') || 'Loading...');
-                    return
-                }
-                if (!btn.data('old-html')) return;
-                btn.prop("disabled", false).html(btn.data('old-html')).data('old-html', false);
-            }
-            const keyward = decodeURI(request.getParameter('keyward'));
-            $(".form-control").val(keyward);
-
-            document.onkeydown = function (evt) {
-                evt = evt || window.event;
-                if (evt.keyCode == 27) {
-
-                    window.parent.postMessage(
-                        {
-                            type: "close",
-                        },
-                        "*"
-                    );
-                }
-            };
-
-            function reportCreate() {
-                // contents 채우기
-                console.log("clicked")
-                $("#contents").html(`
-                <div class="content">
-                <div class="box-container">
-                    <div class="box-wrap">
-                        <div class="box">
-                            <h3>기술 요지서</h3>
-                            <table class="table table-bordered">
-                                <colgroup>
-                                    <col style="width: 15%;">
-                                    <col style="width: 30%;">
-                                    <col>
-                                </colgroup>
-                                <tbody>
-                                    <tr>
-                                        <th scope="row">기술명</th>
-                                        <td>
-                                            건축용 샌드위치 패널(화재확산 방지구조)
-                                        </td>
-                                        <td rowspan="6"> Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem tempore veniam eum quibusdam esse nisi, doloremque ducimus enim officiis tempora illum nesciunt harum aspernatur itaque, natus et rerum? Sunt, repudiandae. </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">발명자</th>
-                                        <td>
-                                            조남욱
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">소속</th>
-                                        <td>
-                                            화재안전연구소
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">출원번호(출원일)</th>
-                                        <td>
-                                            10-2016-0091407(2016.07.19)
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">등록번호(등록일)</th>
-                                        <td>
-                                            10-2016-0091407(2016.07.19)
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">패키지(관련특허)</th>
-                                        <td>
-                                            10-2016-0091407(2016.07.19)<br/>
-                                            10-2016-0091407(2016.07.19)
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="box">
-                            <h3>기술 요지서</h3>
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th>대분류</th>
-                                        <th>중분류</th>
-                                        <th>소분류</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>대분류분류</td>
-                                        <td>중분류22</td>
-                                        <td>소분류22</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="box">
-                        <h3>대표 도면</h3>
-                        <div class="border">
-                            <img src="https://cdn.jsdelivr.net/gh/TeamOden/DK_Resource@main/search-sample/sample4.jpeg" alt="sample4">
-                        </div>
-                    </div>
-                </div>
-                <div class="box-container">
-                    <div class="box-wrap">
-                        <div class="box">
-                            <h3>시장성 분석</h3>
-                            <div class="border">
-                                <img src="https://cdn.jsdelivr.net/gh/TeamOden/DK_Resource@main/search-sample/sample1.png" alt="sample">
-                            </div>
-                        </div>
-                        <div class="box">
-                            <h3>전문가 진단 등급</h3>
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th>기술성(15점)</th>
-                                        <th>시장성(15점)</th>
-                                        <th>권리성(15점)</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>10점</td>
-                                        <td>12점</td>
-                                        <td>10점</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="box">
-                        <h3>핵심 아이템 선정 레벨</h3>
-                        <table class="table table-bordered">
-                            <tbody>
-                                <tr style="height: 38px">
-                                    <th scope="row" style="width: 30%">핵심 아이템</th>
-                                    <td>Mark</td>
-                                </tr>
-                                <tr style="height: 38px">
-                                    <th scope="row">TRL 단계</th>
-                                    <td>Jacob</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2"> asdfjksldafjlk </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="box">
-                        <h3>기술 비교 우위성</h3>
-                        <div class="border">
-                            <img src="https://cdn.jsdelivr.net/gh/TeamOden/DK_Resource@main/search-sample/sample2.png" alt="sample">
-                        </div>
-                    </div>
-                    <div class="box">
-                        <h3>응용 분야</h3>
-                        <div class="border">
-                            <img src="https://cdn.jsdelivr.net/gh/TeamOden/DK_Resource@main/search-sample/sample3.jpeg" alt="sample">
-                        </div>
-                    </div>
-                </div>
-            </div>
-                `);
-                $('#download').attr('disabled', false);
-            }
-
-            function savePDF() {
-                let $btn = $('#download')
-                $.loading($btn, true)
-
-                //저장 영역 div id
-                html2canvas($('#contents')[0], {
-                    //logging : true,		// 디버그 목적 로그
-                    //proxy: "html2canvasproxy.php",
-                    allowTaint: false,	// cross-origin allow 
-                    useCORS: true,		// CORS 사용한 서버로부터 이미지 로드할 것인지 여부
-                    scale: 1			// 기본 96dpi에서 해상도를 두 배로 증가
-                }).then(async function (canvas) {
-                    // 캔버스를 이미지로 변환
-                    var imgData = canvas.toDataURL('image/png');
-                    var pageHeight = 260 // 이미지 가로 길이(mm) / A4 기준 210mm
-                    var imgWidth = pageHeight * 1.414;  // 출력 페이지 세로 길이 계산 A4 기준
-                    var imgHeight = canvas.height * imgWidth / canvas.width;
-                    var heightLeft = imgHeight;
-                    var margin = -30; // 출력 페이지 여백설정
-                    var doc = new jsPDF('l', 'mm', 'a4');
-                    var position = 0;
-
-                    // 첫 페이지 출력
-                    doc.addImage(imgData, 'PNG', margin, position, imgWidth, imgHeight);
-                    heightLeft -= pageHeight;
-
-                    // 한 페이지 이상일 경우 루프 돌면서 출력
-                    while (heightLeft >= 20) {			// 35
-                        position = heightLeft - imgHeight;
-                        position = position - 20;		// -25
-
-                        doc.addPage();
-                        doc.addImage(imgData, 'PNG', margin, position, imgWidth, imgHeight);
-                        heightLeft -= pageHeight;
-                    }
-
-                    // 파일 저장
-                    await doc.save(`기술리포트-${keyward}.pdf`);
-                    $.loading($btn, false);
-                });
-            }
-
-        </script>
     </div>
 </body>
 
