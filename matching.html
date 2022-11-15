@@ -32,7 +32,7 @@
                         function search() {
                             $('#table tbody').empty()
                             const keyward = $("#exampleFormControlInput1").val()
-                            const result = table.filter(array => array.find(el => el.includes(keyward)));
+                            const result = table.filter(array => array[2].includes(keyward) || array[4].includes(keyward));
                             for (key in result) {
                                 RowList = result[key]
                                 var rowItem = '<tr>'
