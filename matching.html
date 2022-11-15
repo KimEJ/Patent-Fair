@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>matching</title>
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.6/dist/web/static/pretendard.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/TeamOden/DK_Resource@v1.1/reset.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/TeamOden/DK_Resource@v1.1/report.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div id="wrap">
+        <header>
+            <div class="header">
+                <div class="make-report">
+                    <div>
+                        <label for="exampleFormControlInput1" class="form-label">키워드 </label>
+                        <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="키워드를 입력해주세요.">
+                    </div>
+                    <button type="button" class="btn btn-primary">검색</button>
+                </div>
+            </div>
+        </header>
+        <aside>
+            <ul>
+                <li>
+                    <a href="https://kimej.github.io/Patent-Fair/report.html">기술 리포트 생성</a>
+                </li>
+                <li class="active">
+                    <a href="#">공급자&수요자 매칭</a>
+                </li>
+                <li>
+                    <a href="https://kimej.github.io/Patent-Fair/attendees.html">참석자 실적 보고서</a>
+                </li>
+            </ul>
+        </aside>
+        <section>
+            <div class="content">
+                <div class="box-container">
+                    <div class="box-wrap">
+                        <div class="box">
+                            <h3>기술 공급자&수요자 매칭</h3>
+                            <table class="table table-bordered tac">
+                                <thead>
+                                    <tr>
+                                        <th>기술공급자</th>
+                                        <th>특허번호</th>
+                                        <th>공급기술 키워드</th>
+                                        <th>기술수요자</th>
+                                        <th>수요기술 키워드</th>
+                                        <th>공급자에 기술거래문의</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>김길수</td>
+                                        <td>1234551234555</td>
+                                        <td>배터리</td>
+                                        <td>LG에너지솔루션</td>
+                                        <td>고체배터리</td>
+                                        <td>O</td>
+                                    </tr>
+                                    <tr>
+                                        <td>K 대학</td>
+                                        <td>0987654321</td>
+                                        <td>배터리 폭발 차단</td>
+                                        <td>LG에너지솔루션</td>
+                                        <td>배터리 제어</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>A 연구소</td>
+                                        <td>123910239889</td>
+                                        <td>NFT 키 관리</td>
+                                        <td>LG에너지솔루션</td>
+                                        <td>NFT</td>
+                                        <td>O</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr/>
+            <div class="regist">
+                <div class="provider">
+                    <div class="title">
+                        <span> 공급자 등록 </span>
+                    </div>
+                    <div class="inputs">
+                        <div class="d-flex input-wrap">
+                            <div class="input-text">
+                                <input type="text" id="providerCompanyName" placeholder="조직 이름">
+                            </div>
+                            <div class="input-text">
+                                <input type="text" id="providerManagerName" placeholder="담당자 이름">
+                            </div>
+                            <div class="input-text">
+                                <input type="text" id="providerManagerEmail" placeholder="담당자 이메일">
+                            </div>
+                            <div class="input-text">
+                                <input type="text" id="providerManagerPhoneNumber" placeholder="담당자 전화번호">
+                            </div>
+                        </div>
+                        <div class="d-flex input-wrap">
+                            <div class="input-text" style="width: 40%">
+                                <input type="text" id="providerPatentNumber" placeholder="특허 번호">
+                            </div>
+                            <div class="input-text" style="width: 60%">
+                                <input type="text" id="providerKeywords" placeholder="특허 키워드 (다수인 경우 쉼표로 구분)">
+                            </div>
+                        </div>
+                    </div>
+                    <button class="button" onclick="providerSave()">저장</button>
+                    <script>
+                        function providerSave() {
+                            if (
+                                $('#providerCompanyName').val() === '' ||
+                                $('#providerManagerName').val() === '' ||
+                                $('#providerManagerEmail').val() === '' ||
+                                $('#providerManagerPhoneNumber').val() === '' ||
+                                $('#providerPatentNumber').val() === '' ||
+                                $('#providerKeywords').val() === ''
+                            ){
+                                alert("입력되지 않은 값이 있습니다.")
+                            } else {
+                                alert("공급자 등록에 성공하였습니다.")
+                                $('#providerCompanyName').val() = ''
+                                $('#providerManagerName').val() = ''
+                                $('#providerManagerEmail').val() = ''
+                                $('#providerManagerPhoneNumber').val() = ''
+                                $('#providerPatentNumber').val() = ''
+                                $('#providerKeywords').val() = ''
+                            }
+
+                        }
+                    </script>                </div>
+                <div class="consumer">
+                    <div class="title">
+                        <span> 수요자 등록 </span>
+                    </div>
+                    <div class="inputs">
+                        <div class="d-flex input-wrap">
+                            <div class="input-text">
+                                <input type="text" id="consumerCompanyName" placeholder="조직 이름">
+                            </div>
+                            <div class="input-text">
+                                <input type="text" id="consumerManagerName" placeholder="담당자 이름">
+                            </div>
+                            <div class="input-text">
+                                <input type="text" id="consumerManagerEmail" placeholder="담당자 이메일">
+                            </div>
+                            <div class="input-text">
+                                <input type="text" id="consumerManagerPhoneNumber" placeholder="담당자 전화번호">
+                            </div>
+                        </div>
+                        <div class="d-flex input-wrap">
+                            <div class="input-text" style="width: 60%">
+                                <input type="text" id="consumerKeywords" placeholder="특허 키워드 (다수인 경우 쉼표로 구분)">
+                            </div>
+                        </div>
+                    </div>
+                    <button class="button" onclick="consumerSave()">저장</button>
+                    <script>
+                        function consumerSave() {
+                            if (
+                                $('#consumerCompanyName').val() === '' ||
+                                $('#consumerManagerName').val() === '' ||
+                                $('#consumerManagerEmail').val() === '' ||
+                                $('#consumerManagerPhoneNumber').val() === '' ||
+                                $('#consumerKeywords').val() === ''
+                            ){
+                                alert("입력되지 않은 값이 있습니다.")
+                            } else {
+                                alert("공급자 등록에 성공하였습니다.")
+                                $('#consumerCompanyName').val('')
+                                $('#consumerManagerName').val('')
+                                $('#consumerManagerEmail').val('')
+                                $('#consumerManagerPhoneNumber').val('')
+                                $('#consumerKeywords').val('')
+                            }
+
+                        }
+                    </script>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+
+</html>
